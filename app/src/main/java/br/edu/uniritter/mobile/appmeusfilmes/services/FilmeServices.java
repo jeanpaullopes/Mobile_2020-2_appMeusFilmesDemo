@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
@@ -37,54 +38,68 @@ public class FilmeServices {
     public static final String URLAPI = "https://api.themoviedb.org/3/";
     public static final String URLAPIKEY = "b881ca47490d5f5879a4cbd0a0b3a94c";
 
+
+    // Set up the network to use HttpURLConnection as the HTTP client.
+    public static Network network = new BasicNetwork(new HurlStack());
+
+    public static Cache cache = new Cache() {
+        private Map<String, Entry>  cache;
+        @Override
+        public Entry get(String key) {
+            return cache.get(key);
+        }
+
+        @Override
+        public void put(String key, Entry entry) {
+            cache.put(key, entry);
+
+        }
+
+        @Override
+        public void initialize() {
+            cache = new HashMap<>();
+        }
+
+        @Override
+        public void invalidate(String key, boolean fullExpire) {
+
+        }
+
+        @Override
+        public void remove(String key) {
+            cache.remove(key);
+
+        }
+
+        @Override
+        public void clear() {
+            cache.clear();
+        }
+    };
+
+
     public static void carregaImagem(ImageView imageView, String urlImagem) {
         new DownloadImageTask(imageView).execute(urlImagem);
     }
-
-    public static void buscaFilmePorId(int id, Response.Listener<JSONObject> listener) {
-        RequestQueue requestQueue;
-
-        Cache cache = new Cache() {
-            private Map<String, Entry>  cache;
-            @Override
-            public Entry get(String key) {
-                return cache.get(key);
-            }
-
-            @Override
-            public void put(String key, Entry entry) {
-                cache.put(key, entry);
-
-            }
-
-            @Override
-            public void initialize() {
-                cache = new HashMap<>();
-            }
-
-            @Override
-            public void invalidate(String key, boolean fullExpire) {
-
-            }
-
-            @Override
-            public void remove(String key) {
-                cache.remove(key);
-
-            }
-
-            @Override
-            public void clear() {
-                cache.clear();
-            }
-        };
-        // Set up the network to use HttpURLConnection as the HTTP client.
-        Network network = new BasicNetwork(new HurlStack());
-
+    public static void buscaImagemFilme(String url, Response.Listener<Bitmap> listener) {
         // Instantiate the RequestQueue with the cache and network.
-        requestQueue = new RequestQueue(cache, network);
+        RequestQueue requestQueue = new RequestQueue(FilmeServices.cache, FilmeServices.network);
 
-        // Start the queue
+        requestQueue.start();
+        Log.v("request","vou criar o request");
+
+        ImageRequest imgReq = new ImageRequest(url, listener, 0, 0, null, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("request",error.getMessage());
+            }
+        });
+        requestQueue.add(imgReq);
+
+    }
+    public static void buscaFilmePorId(int id, Response.Listener<JSONObject> listener) {
+        // Instantiate the RequestQueue with the cache and network.
+        RequestQueue requestQueue = new RequestQueue(FilmeServices.cache, FilmeServices.network);
         requestQueue.start();
 
         String url = FilmeServices.URLAPI+"movie/"+id+"?language=pt-BR&api_key="+FilmeServices.URLAPIKEY;
