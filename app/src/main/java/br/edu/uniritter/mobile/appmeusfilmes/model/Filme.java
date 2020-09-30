@@ -14,9 +14,8 @@ public class Filme implements Parcelable {
     private int id;
     private String poster;
 
-    public Filme(String json) {
+    public Filme(JSONObject jsonObject) {
         try {
-            JSONObject jsonObject = new JSONObject(json);
             this.titulo = jsonObject.getString("original_title");
             this.id = jsonObject.getInt("id");
             this.poster = jsonObject.getString("poster_path");

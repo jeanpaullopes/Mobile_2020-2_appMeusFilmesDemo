@@ -18,10 +18,11 @@ import com.android.volley.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import br.edu.uniritter.mobile.appmeusfilmes.model.Filme;
 import br.edu.uniritter.mobile.appmeusfilmes.services.FilmeServices;
 
 
-public class ActivityFilme extends AppCompatActivity implements Response.Listener<JSONObject> {
+public class ActivityFilme extends AppCompatActivity implements Response.Listener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class ActivityFilme extends AppCompatActivity implements Response.Listene
         ab.setDisplayHomeAsUpEnabled(true);
 
         //aqui busca um filme na TMDB API
-        FilmeServices.buscaFilmePorId(40096, this);
+        FilmeServices.buscaFilmePorId(487242, this);  //487242 40096
     }
 
     // importante para apresentar o menu na tela da Activity
@@ -48,30 +49,30 @@ public class ActivityFilme extends AppCompatActivity implements Response.Listene
         return true;
     }
 
-
+/*
     @Override
     public void onResponse(JSONObject response) {
         TextView tv = findViewById(R.id.textViewJsonFilme);
-        tv.setText(response.toString());
+        Filme filme = new Filme(response.toString());
+        tv.setText(filme.getTitulo());
  //       try {
  //           FilmeServices.buscaImagemFilme("http://image.tmdb.org/t/p/w154/" + response.getString("poster_path"), this);
  //       } catch (JSONException je) {}
     }
 
-/*
+*/
     @Override
     public void onResponse(Object response) {
         Log.v("request",response.getClass().getCanonicalName());
 
         if( response.getClass() == JSONObject.class) {
             Log.v("request","Recebi JSON"+((JSONObject)response).toString());
-
+            Filme filme = new Filme(((JSONObject) response));
             TextView tv = findViewById(R.id.textViewJsonFilme);
-            tv.setText(response.toString());
-            try {
-                Log.v("request","vou chamar imagem http://image.tmdb.org/t/p/w154"+((JSONObject)response).getString("poster_path"));
-                FilmeServices.buscaImagemFilme("https://image.tmdb.org/t/p/w300" + ((JSONObject)response).getString("poster_path"), this);
-            } catch (JSONException je) {}
+            tv.setText(filme.getTitulo());
+            Log.v("request","vou chamar imagem http://image.tmdb.org/t/p/w154"+filme.getPoster());
+            FilmeServices.buscaImagemFilme("https://image.tmdb.org/t/p/w300" + filme.getPoster(), this);
+
         }
 
         if( response.getClass() == Bitmap.class) {
@@ -81,6 +82,5 @@ public class ActivityFilme extends AppCompatActivity implements Response.Listene
             tv.setImageBitmap((Bitmap) response);
         }
     }
-    */
 
 }

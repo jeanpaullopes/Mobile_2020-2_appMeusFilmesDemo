@@ -88,7 +88,8 @@ public class FilmeServices {
         requestQueue.start();
         Log.v("request","vou criar o request");
 
-        ImageRequest imgReq = new ImageRequest(url, listener, 0, 0, null, null, new Response.ErrorListener() {
+        ImageRequest imgReq = new ImageRequest(url, listener, 0, 0, null,
+                null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("request",error.getMessage());
@@ -106,7 +107,7 @@ public class FilmeServices {
 
         // Formulate the request and handle the response.
         JsonObjectRequest jor = new JsonObjectRequest(Request.Method.GET, url,
-                null, listener,null);
+                null,listener,null);
 
         // Add the request to the RequestQueue.
         requestQueue.add(jor);
