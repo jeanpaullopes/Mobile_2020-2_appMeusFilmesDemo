@@ -15,8 +15,7 @@
         app:layout_constraintBottom_toTopOf="@+id/imageViewFilme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarFilmes" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageViewFilme"
@@ -26,7 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
-
+<!--
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarFilmes"
         android:layout_width="match_parent"
@@ -37,4 +36,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_filmes"
         tools:layout_editor_absoluteX="0dp" />
+        -->
 </androidx.constraintlayout.widget.ConstraintLayout>

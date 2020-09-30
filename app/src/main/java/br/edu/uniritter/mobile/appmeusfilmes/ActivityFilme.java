@@ -27,9 +27,9 @@ public class ActivityFilme extends AppCompatActivity implements Response.Listene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filme);
-        Toolbar tb = (Toolbar) findViewById(R.id.toolbarFilmes);
+       // Toolbar tb = (Toolbar) findViewById(R.id.toolbarFilmes);
         // veja o método onCreateOptionsMenu
-        setSupportActionBar(tb);
+        //setSupportActionBar(tb);
 
         //aqui vai colocar o botão para voltar à Activity pai.
         // para isto tem que indicar qual é a ParentActivity no Manifest
