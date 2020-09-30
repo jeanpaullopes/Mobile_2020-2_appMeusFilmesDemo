@@ -1,12 +1,17 @@
 package br.edu.uniritter.mobile.appmeusfilmes;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 
 import com.android.volley.Response;
 
@@ -22,8 +27,27 @@ public class ActivityFilme extends AppCompatActivity implements Response.Listene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filme);
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbarFilmes);
+        // veja o método onCreateOptionsMenu
+        setSupportActionBar(tb);
+
+        //aqui vai colocar o botão para voltar à Activity pai.
+        // para isto tem que indicar qual é a ParentActivity no Manifest
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
+        //aqui busca um filme na TMDB API
         FilmeServices.buscaFilmePorId(40096, this);
     }
+
+    // importante para apresentar o menu na tela da Activity
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_filmes, menu);
+        return true;
+    }
+
 
     @Override
     public void onResponse(JSONObject response) {
