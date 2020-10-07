@@ -5,25 +5,15 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
-
-import com.android.volley.Cache;
-import com.android.volley.Network;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-
 import org.json.JSONObject;
 
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+
 
 // usaremos a biblioteca Volley para acessar a API REST
 // é necessário colocar a dependência dentro do arquivo build.gradle
@@ -35,47 +25,7 @@ dependencies {
  */
 
 public class FilmeServices {
-    public static final String URLAPI = "https://api.themoviedb.org/3/";
-    public static final String URLAPIKEY = "b881ca47490d5f5879a4cbd0a0b3a94c";
 
-
-    // Set up the network to use HttpURLConnection as the HTTP client.
-    public static Network network = new BasicNetwork(new HurlStack());
-
-    public static Cache cache = new Cache() {
-        private Map<String, Entry>  cache;
-        @Override
-        public Entry get(String key) {
-            return cache.get(key);
-        }
-
-        @Override
-        public void put(String key, Entry entry) {
-            cache.put(key, entry);
-
-        }
-
-        @Override
-        public void initialize() {
-            cache = new HashMap<>();
-        }
-
-        @Override
-        public void invalidate(String key, boolean fullExpire) {
-
-        }
-
-        @Override
-        public void remove(String key) {
-            cache.remove(key);
-
-        }
-
-        @Override
-        public void clear() {
-            cache.clear();
-        }
-    };
 
 
     public static void carregaImagem(ImageView imageView, String urlImagem) {
@@ -83,9 +33,8 @@ public class FilmeServices {
     }
     public static void buscaImagemFilme(String url, Response.Listener<Bitmap> listener) {
         // Instantiate the RequestQueue with the cache and network.
-        RequestQueue requestQueue = new RequestQueue(FilmeServices.cache, FilmeServices.network);
 
-        requestQueue.start();
+        Constantes.requestQueue.start();
         Log.v("request","vou criar o request");
 
         ImageRequest imgReq = new ImageRequest(url, listener, 0, 0, null,
@@ -95,22 +44,21 @@ public class FilmeServices {
                 Log.e("request",error.getMessage());
             }
         });
-        requestQueue.add(imgReq);
+        Constantes.requestQueue.add(imgReq);
 
     }
     public static void buscaFilmePorId(int id, Response.Listener<JSONObject> listener) {
-        // Instantiate the RequestQueue with the cache and network.
-        RequestQueue requestQueue = new RequestQueue(FilmeServices.cache, FilmeServices.network);
-        requestQueue.start();
 
-        String url = FilmeServices.URLAPI+"movie/"+id+"?language=pt-BR&api_key="+FilmeServices.URLAPIKEY;
+        Constantes.requestQueue.start();
+
+        String url = Constantes.URLAPI+"movie/"+id+"?language=pt-BR&api_key="+Constantes.URLAPIKEY;
 
         // Formulate the request and handle the response.
         JsonObjectRequest jor = new JsonObjectRequest(Request.Method.GET, url,
                 null,listener,null);
 
         // Add the request to the RequestQueue.
-        requestQueue.add(jor);
+        Constantes.requestQueue.add(jor);
 
         // ...
 
