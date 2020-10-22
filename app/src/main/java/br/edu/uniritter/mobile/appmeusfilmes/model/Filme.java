@@ -32,9 +32,9 @@ public class Filme implements Parcelable {
     }
 
     protected Filme(Parcel in) {
+        id = in.readInt();
         titulo = in.readString();
         generos = in.createStringArray();
-        id = in.readInt();
         poster = in.readString();
     }
 

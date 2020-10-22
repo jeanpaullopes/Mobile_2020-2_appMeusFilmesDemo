@@ -26,6 +26,7 @@ import br.edu.uniritter.mobile.appmeusfilmes.services.FilmeServices;
 
 public class ActivityFilme extends AppCompatActivity implements Response.Listener {
     ActivityFilmeBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,8 +42,10 @@ public class ActivityFilme extends AppCompatActivity implements Response.Listene
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
+
         //aqui busca um filme na TMDB API
-        FilmeServices.buscaFilmePorId(487242, this);  //487242 40096
+        int idFilme = this.getIntent().getIntExtra("idFilme",0);
+        FilmeServices.buscaFilmePorId(idFilme, this);  //487242 40096
     }
 
     // importante para apresentar o menu na tela da Activity

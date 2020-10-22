@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -20,20 +21,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import br.edu.uniritter.mobile.appmeusfilmes.adapters.CategoriasAdapter;
 import br.edu.uniritter.mobile.appmeusfilmes.model.Categoria;
+import br.edu.uniritter.mobile.appmeusfilmes.model.Filme;
+import br.edu.uniritter.mobile.appmeusfilmes.presenters.FilmesContract;
+import br.edu.uniritter.mobile.appmeusfilmes.presenters.FilmesPresenter;
 import br.edu.uniritter.mobile.appmeusfilmes.services.CategoriasFW;
 import br.edu.uniritter.mobile.appmeusfilmes.services.Constantes;
 
 // implementada a Interface Listener para tratar a requisição da categorias
-public class MainActivity extends AppCompatActivity implements Response.Listener<JSONObject> {
-
+public class MainActivity extends AppCompatActivity implements Response.Listener<JSONObject>,
+        FilmesContract.FilmesView {
+        FilmesContract.FilmesPresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        this.presenter = new FilmesPresenter(this);
+        presenter.disparaAviso("olá mundo");
         //adicionado a chamada para a lista de categorias de acordo com a seleção de tipo
         Constantes.requestQueue.start();
         String url = "";
@@ -54,14 +61,16 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         RecyclerView rv = findViewById(R.id.reclyclerCategorias);
         StaggeredGridLayoutManager lmm = new StaggeredGridLayoutManager(3,LinearLayout.VERTICAL);
         // trocado pelo StaggerGridLayout
-        //LinearLayoutManager lm = new LinearLayoutManager(this);
-        rv.setLayoutManager(lmm);
+        LinearLayoutManager lm = new LinearLayoutManager(this);
+        rv.setLayoutManager(lm);
         // retirado daqui e colocado no onResponse
         //CategoriasAdapter adap = new CategoriasAdapter(new ArrayList<Categoria>(cfw.getCategorias()));
         //rv.setAdapter(adap);
     }
     public void onClickButton1(View view) {
         Intent it = new Intent(this, ActivityFilme.class);
+        it.putExtra("idFilme",40097); //487242 40096
+        it.putExtra("filme", new Filme(null));
         startActivity(it);
     }
 
@@ -77,5 +86,21 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         CategoriasAdapter adap = new CategoriasAdapter(new ArrayList<Categoria>(cfw.getCategorias()));
         RecyclerView rv = findViewById(R.id.reclyclerCategorias);
         rv.setAdapter(adap);
+    }
+
+    @Override
+    public void trocaTexto(String texto) {
+        Toast.makeText(this,texto,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void colocaFilmesnoAdapterPreferidos(List<Filme> filmes) {
+        rv3.setAdapter(new ListaFilmesAdapter(filmes));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.presenter.destruir();
     }
 }

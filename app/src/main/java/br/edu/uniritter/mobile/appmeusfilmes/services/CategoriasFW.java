@@ -9,6 +9,7 @@ import br.edu.uniritter.mobile.appmeusfilmes.model.Categoria;
 public class CategoriasFW {
     private static CategoriasFW instancia;
     private Map<Integer, Categoria> categorias;
+
     private CategoriasFW() {
         this.categorias = new HashMap();
     }
