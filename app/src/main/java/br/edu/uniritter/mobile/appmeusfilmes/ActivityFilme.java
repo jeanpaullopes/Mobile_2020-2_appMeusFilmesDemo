@@ -6,7 +6,9 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -43,8 +45,36 @@ public class ActivityFilme extends AppCompatActivity implements Response.Listene
         ab.setDisplayHomeAsUpEnabled(true);
 
 
+        //controle para chamada externa a activity
+
+        int idFilme = 0;
+
+        Intent intent = getIntent();
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Uri uri = intent.getData();
+            String id = uri.getQueryParameter("id");
+            idFilme = Integer.parseInt(id);
+        } else {
+            if (intent.getType().equals("application/json")) {
+                try {
+                    Log.d("intent",intent.getExtras().toString());
+                    for(String k : intent.getExtras().keySet()) {
+                        Log.d("intent", k);
+                    }
+                    JSONObject json = new JSONObject(intent.getExtras().getString("json"));
+                    Log.e("intent",json.toString());
+                    idFilme = json.getInt("id");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                idFilme = this.getIntent().getIntExtra("idFilme", 0);
+            }
+        }
+
+
+
         //aqui busca um filme na TMDB API
-        int idFilme = this.getIntent().getIntExtra("idFilme",0);
         FilmeServices.buscaFilmePorId(idFilme, this);  //487242 40096
     }
 

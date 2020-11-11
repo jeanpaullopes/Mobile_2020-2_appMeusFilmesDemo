@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
 
     @Override
     public void colocaFilmesnoAdapterPreferidos(List<Filme> filmes) {
-        rv3.setAdapter(new ListaFilmesAdapter(filmes));
+        //rv3.setAdapter(new ListaFilmesAdapter(filmes));
     }
 
     @Override

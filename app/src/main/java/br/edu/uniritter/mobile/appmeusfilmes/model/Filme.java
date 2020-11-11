@@ -1,11 +1,17 @@
 package br.edu.uniritter.mobile.appmeusfilmes.model;
 
+import android.graphics.Bitmap;
+import android.widget.ImageView;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.android.volley.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import br.edu.uniritter.mobile.appmeusfilmes.services.FilmeServices;
 
 public class Filme implements Parcelable {
 
@@ -13,6 +19,7 @@ public class Filme implements Parcelable {
     private String[] generos;
     private int id;
     private String poster;
+    private Bitmap posterImagem;
 
     public Filme(JSONObject jsonObject) {
         try {
@@ -78,6 +85,24 @@ public class Filme implements Parcelable {
 
     public String getPoster() {
         return poster;
+    }
+    public Bitmap getPosterImagem() {
+        if (this.posterImagem == null) {
+            Response.Listener<Bitmap> listener = new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap response) {
+                    posterImagem = response;
+                }
+            };
+
+            FilmeServices.buscaImagemFilme("http://image.tmdb.org/t/p/w154/" + getPoster(), listener);
+        }
+        return posterImagem;
+
+    }
+
+    public void setPosterImagem(ImageView iv) {
+        this.posterImagem = iv.getDrawingCache();
     }
 
     public void setPoster(String poster) {

@@ -1,5 +1,6 @@
 package br.edu.uniritter.mobile.appmeusfilmes.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Collection;
 import java.util.List;
 
+import br.edu.uniritter.mobile.appmeusfilmes.ListaFilmes;
 import br.edu.uniritter.mobile.appmeusfilmes.R;
 import br.edu.uniritter.mobile.appmeusfilmes.databinding.LayoutCategoriaBinding;
 import br.edu.uniritter.mobile.appmeusfilmes.model.Categoria;
@@ -24,7 +26,15 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Ca
 
     public CategoriasAdapter.CategoriaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        LayoutCategoriaBinding itemBinding = LayoutCategoriaBinding.inflate(layoutInflater, parent, false);
+        final LayoutCategoriaBinding itemBinding = LayoutCategoriaBinding.inflate(layoutInflater, parent, false);
+        itemBinding.button.setOnClickListener(new View.OnClickListener() {
+                                                          @Override
+                                                          public void onClick(View view) {
+                                                              Intent intent = new Intent(itemBinding.getRoot().getContext(), ListaFilmes.class);
+                                                              intent.putExtra("idCategoria",itemBinding.getCategoria().id);
+                                                              itemBinding.getRoot().getContext().startActivity(intent);
+                                                          }
+                                                      });
         return new CategoriaViewHolder(itemBinding);
     }
 

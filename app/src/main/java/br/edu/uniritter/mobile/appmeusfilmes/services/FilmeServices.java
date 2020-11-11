@@ -13,6 +13,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.edu.uniritter.mobile.appmeusfilmes.model.Filme;
 
 
 // usaremos a biblioteca Volley para acessar a API REST
@@ -46,6 +50,16 @@ public class FilmeServices {
         });
         Constantes.requestQueue.add(imgReq);
 
+    }
+    public static void buscaFilmesPorCategoria(int categoria, Response.Listener<JSONObject> listener) {
+        Constantes.requestQueue.start();
+
+        String url = Constantes.URLAPI+"discover/movie?with_genres="+categoria+"&language=pt-BR&api_key="+Constantes.URLAPIKEY;
+        JsonObjectRequest jor = new JsonObjectRequest(Request.Method.GET, url,
+                null,listener,null);
+
+        // Add the request to the RequestQueue.
+        Constantes.requestQueue.add(jor);
     }
     public static void buscaFilmePorId(int id, Response.Listener<JSONObject> listener) {
 

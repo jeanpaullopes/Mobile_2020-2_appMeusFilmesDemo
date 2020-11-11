@@ -13,7 +13,7 @@ public class FilmesPresenter implements FilmesContract.FilmesPresenter{
     public void buscaFilmesFavoritos() {
         //aqui eu busco na API;
         // buisquei os filmes em um List<Filme>
-        view.colocaFilmesnoAdapterPreferidos(moviesList);
+        //view.colocaFilmesnoAdapterPreferidos(moviesList);
     }
 
     @Override

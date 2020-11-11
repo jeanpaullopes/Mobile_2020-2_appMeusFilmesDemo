@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ListaFilmes"></activity>
         <activity android:name=".SelecaoTipo"></activity>
         <activity android:name=".SplashScreen">
             <intent-filter>
@@ -19,16 +20,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".ActivityFilme"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity">
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="uniritterfilmes.edu.br" android:scheme="http" />
+
+            </intent-filter>
+            -->
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/json"/>
+            </intent-filter>
+            -->
+        </activity>
     </application>
 
 </manifest>
