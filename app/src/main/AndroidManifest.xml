@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
     package="br.edu.uniritter.mobile.appmeusfilmes">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,11 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ListaFilmes"></activity>
-        <activity android:name=".SelecaoTipo"></activity>
+        <activity android:name=".SelecaoTipo">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="uniritterfilmes.edu.br" android:path="/categorias" android:scheme="http" />
+
+            </intent-filter>
+        </activity>
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,23 +32,43 @@
         <activity
             android:name=".ActivityFilme"
             android:parentActivityName=".MainActivity">
-            <!--
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="uniritterfilmes.edu.br" android:scheme="http" />
+                <data android:host="uniritterfilmes.edu.br" android:path="/filme" android:scheme="http" />
 
             </intent-filter>
-            -->
-            <!--
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="application/json"/>
+                <data android:host="uniritterfilmes.edu.br" android:path="/filme" android:scheme="http" />
+
             </intent-filter>
-            -->
+
+           <intent-filter>
+               <action android:name="android.intent.action.SEND" />
+               <category android:name="android.intent.category.DEFAULT" />
+               <data android:mimeType="application/json"/>
+           </intent-filter>
+
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="br.edu.uniritter.mobile.appmeusfilmes.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
     </application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
+
 
 </manifest>

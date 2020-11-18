@@ -57,12 +57,8 @@ public class ActivityFilme extends AppCompatActivity implements Response.Listene
         } else {
             if (intent.getType().equals("application/json")) {
                 try {
-                    Log.d("intent",intent.getExtras().toString());
-                    for(String k : intent.getExtras().keySet()) {
-                        Log.d("intent", k);
-                    }
+
                     JSONObject json = new JSONObject(intent.getExtras().getString("json"));
-                    Log.e("intent",json.toString());
                     idFilme = json.getInt("id");
                 } catch (JSONException e) {
                     e.printStackTrace();

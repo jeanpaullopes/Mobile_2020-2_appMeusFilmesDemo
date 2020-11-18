@@ -59,6 +59,7 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Ca
         }
         public void bind(Categoria cat) {
             binding.setCategoria(cat);
+
             binding.executePendingBindings();
         }
     }
