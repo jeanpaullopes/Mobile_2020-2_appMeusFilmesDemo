@@ -48,6 +48,9 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Ca
         holder.bind(categorias.get(position));
     }
 
+    public void trocaCategorias(List<Categoria>lst){
+        this.categorias = lst;
+    }
     public static class CategoriaViewHolder extends RecyclerView.ViewHolder {
         //aqui colocamos um item para binding. Estas classes são automaticamente criadas pelo Android
         LayoutCategoriaBinding binding;

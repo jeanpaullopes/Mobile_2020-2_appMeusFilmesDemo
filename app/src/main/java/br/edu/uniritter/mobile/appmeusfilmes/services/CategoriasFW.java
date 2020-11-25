@@ -24,7 +24,7 @@ public class CategoriasFW {
 
     }
     public Collection<Categoria> getCategorias() {
-       return categorias.values();
+        return categorias.values();
     }
     public Categoria getCategoriaById(int id){
         return categorias.get(id);
